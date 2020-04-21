@@ -10,6 +10,8 @@ import Dashboard from './components/Dashboard';
 import Invoices from './components/Invoices';
 import NewContact from './components/NewContact';
 import NewInvoice from './components/NewInvoice';
+import UpdateContact from './components/UpdateContact';
+import UpdateInvoice from './components/UpdateInvoice';
 import './App.css';
 import { withAuthenticator } from 'aws-amplify-react'
 import Amplify, { Auth } from 'aws-amplify';
@@ -53,6 +55,12 @@ class App extends Component {
               </Route>
               <Route path="/new-invoice">
                 <NewInvoice />
+              </Route>
+              <Route path="/update-contact">
+                <UpdateContact />
+              </Route>
+              <Route path="/update-invoice">
+                <UpdateInvoice />
               </Route>
             </Switch>
       </div>

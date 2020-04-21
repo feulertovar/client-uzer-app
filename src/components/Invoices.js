@@ -37,7 +37,7 @@ class Invoices extends Component {
                                                 <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
                                                     <i class="fa fa-paper-plane"></i>
                                                 </a>
-                                                <a href="update_invoice.html" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
+                                                <a href="update-invoice" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Edit">
@@ -56,7 +56,7 @@ class Invoices extends Component {
                                                 <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
                                                     <i class="fa fa-paper-plane"></i>
                                                 </a>
-                                                <a href="update_invoice.html" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
+                                                <a href="update-invoice" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Edit">
@@ -75,7 +75,7 @@ class Invoices extends Component {
                                                 <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
                                                     <i class="fa fa-paper-plane"></i>
                                                 </a>
-                                                <a href="update_invoice.html" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
+                                                <a href="update-invoice" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Edit">
