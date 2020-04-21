@@ -9,6 +9,7 @@ import Contacts from './components/Contacts';
 import Dashboard from './components/Dashboard';
 import Invoices from './components/Invoices';
 import NewContact from './components/NewContact';
+import NewInvoice from './components/NewInvoice';
 import './App.css';
 import { withAuthenticator } from 'aws-amplify-react'
 import Amplify, { Auth } from 'aws-amplify';
@@ -49,6 +50,9 @@ class App extends Component {
               </Route>
               <Route path="/invoices">
                 <Invoices />
+              </Route>
+              <Route path="/new-invoice">
+                <NewInvoice />
               </Route>
             </Switch>
       </div>

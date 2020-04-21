@@ -111,7 +111,8 @@ class Invoices extends Component {
                     </div>
                     </div>
                 </div>
-
+                <div class="btn-follow"><a href="new-invoice"><button type="button" class="btn btn-outline-primary">New Invoice</button></a>
+                </div>
                 <footer class="site-footer" style={{ marginTop: '50px' }}>
                     <div class="container">
                             <div class="col-md-12">
