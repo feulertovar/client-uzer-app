@@ -8,7 +8,7 @@ import {
 import Contacts from './components/Contacts';
 import Dashboard from './components/Dashboard';
 import Invoices from './components/Invoices';
-import logo from './logo.svg';
+import NewContact from './components/NewContact';
 import './App.css';
 import { withAuthenticator } from 'aws-amplify-react'
 import Amplify, { Auth } from 'aws-amplify';
@@ -33,7 +33,6 @@ class App extends Component {
                       <Link to="/dashboard">Home</Link>
                       <Link to="/contacts">Contacts</Link>
                       <Link to="/invoices">Invoices</Link>
-            
                     </ul>
                 </div>
             </nav>
@@ -41,6 +40,9 @@ class App extends Component {
             <Switch>
               <Route path="/contacts">
                 <Contacts />
+              </Route>
+              <Route path="/new-contact">
+                <NewContact />
               </Route>
               <Route path="/dashboard">
                 <Dashboard />

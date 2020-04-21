@@ -6,7 +6,7 @@ class Contacts extends Component {
         return (
             <main class="pt-5">
             <div class="container">
-            <link href="assets/css/style.css" rel="stylesheet" />
+            <link href="../App.css" rel="stylesheet" />
                 <div class="row">
                 <div class="col-md-3">
                 <div class="list-group">
@@ -23,6 +23,7 @@ class Contacts extends Component {
                 </div>
               
                 <table class="table">
+                    <tbody>
                     <tr>
                         <td class="middle">
                             <div class="media">
@@ -163,6 +164,7 @@ class Contacts extends Component {
                             </div>
                         </td>
                     </tr>
+                    </tbody>
                 </table>
                 <div class="card-footer">
                   <nav aria-label="Page Navigation">
@@ -180,9 +182,20 @@ class Contacts extends Component {
                         </li>
                       </ul>
                     </nav>
-                    </div>
-                    </div>
                 </div>
+                </div>
+                
+                </div>
+            </div>
+            <div class="btn-follow">
+                <a href="new-contact">
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                    >
+                        New Contact
+                    </button>
+                </a>
             </div>
             </div>
             <footer class="site-footer">
@@ -191,7 +204,6 @@ class Contacts extends Component {
                              <p>
                                  <br />
                                  Copyright &copy;
-                                     {document.write(new Date().getFullYear())}
                                  by CS473 Team B
                              </p>
                          </div>
