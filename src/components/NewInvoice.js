@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 class NewInvoice extends Component {
 
+    componentDidMount() {
+        console.log("new invoice component rendered");
+    }
+
     render() {
         return (
             <main class="py-5">

@@ -46,9 +46,7 @@ class App extends Component {
               <Route path="/new-contact" component={NewContact} />
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/invoices" component={Invoices} />
-              <Route path="/new-invoice">
-                <NewInvoice />
-              </Route>
+              <Route path="/new-invoice" component={NewInvoice} />
               <Route path="/update-contact">
                 <UpdateContact />
               </Route>
