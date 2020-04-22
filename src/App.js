@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-// import {
-//   BrowserRouter as Router,
-//   Switch,
-//   Route,
-//   Link
-// } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import Contacts from './components/Contacts';
 import Dashboard from './components/Dashboard';
 import Invoices from './components/Invoices';
@@ -22,7 +22,7 @@ Amplify.configure(aws_exports);
 class App extends Component {
   render() {
     return (
-      // <Router>
+      <Router>
       <div className="App">
             <nav className="navbar navbar-inverse">
           <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -33,14 +33,14 @@ class App extends Component {
                     <a className="navbar-brand" href="#">UZERS</a>
                     </div>
                     <ul className="nav navbar-nav">
-                      {/* <Link to="/dashboard">Home</Link>
+                      <Link to="/dashboard">Home</Link>
                       <Link to="/contacts">Contacts</Link>
-                      <Link to="/invoices">Invoices</Link> */}
+                      <Link to="/invoices">Invoices</Link>
                     </ul>
                 </div>
             </nav>
 
-            {/* <Switch>
+            <Switch>
               <Route path="/contacts">
                 <Contacts />
               </Route>
@@ -62,9 +62,9 @@ class App extends Component {
               <Route path="/update-invoice">
                 <UpdateInvoice />
               </Route>
-            </Switch> */}
+            </Switch>
       </div>
-      // </Router>
+      </Router>
     );
   }
 }
