@@ -13,11 +13,15 @@ import NewInvoice from './components/NewInvoice';
 import UpdateContact from './components/UpdateContact';
 import UpdateInvoice from './components/UpdateInvoice';
 import './App.css';
-import { withAuthenticator } from 'aws-amplify-react'
-import Amplify, { Auth } from 'aws-amplify';
-import aws_exports from './aws-exports';
+// import { withAuthenticator } from 'aws-amplify-react';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import { Auth } from '@aws-amplify/auth';
+// import Amplify from 'aws-amplify';
+import awsmobile from './aws-exports';
+import Amplify from '@aws-amplify/core';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
-Amplify.configure(aws_exports);
+Amplify.configure(awsmobile);
 
 class App extends Component {
   render() {
