@@ -42,18 +42,10 @@ class App extends Component {
             </nav>
 
             <Switch>
-              <Route path="/contacts">
-                <Contacts />
-              </Route>
-              <Route path="/new-contact">
-                <NewContact />
-              </Route>
-              <Route path="/dashboard">
-                <Dashboard />
-              </Route>
-              <Route path="/invoices">
-                <Invoices />
-              </Route>
+              <Route path="/contacts" component={Contacts} />
+              <Route path="/new-contact" component={NewContact} />
+              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/invoices" component={Invoices} />
               <Route path="/new-invoice">
                 <NewInvoice />
               </Route>

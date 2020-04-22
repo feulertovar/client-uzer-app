@@ -1,6 +1,22 @@
 import React, { Component } from 'react';
+import NewContact from './NewContact';
 
 class Contacts extends Component {
+    constructor(props){
+        super(props);
+
+        this.viewNewContactForm = this.viewNewContactForm.bind(this);
+    }
+
+    componentDidMount() {
+        console.log(this.props);
+    }
+
+    viewNewContactForm () {
+        console.log(this.props);
+        console.log("viewNewContactForm button clicked");
+        this.props.history.push('/new-contact');
+    }
 
     render() {
         return (
@@ -188,14 +204,13 @@ class Contacts extends Component {
                 </div>
             </div>
             <div class="btn-follow">
-                <a href="new-contact">
                     <button
                         type="button"
                         class="btn btn-outline-primary"
+                        onClick={this.viewNewContactForm}
                     >
                         New Contact
                     </button>
-                </a>
             </div>
             </div>
             <footer class="site-footer">

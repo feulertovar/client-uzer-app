@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 class NewContact extends Component {
     
+    componentDidMount() {
+        console.log("new contact component triggered");
+    }
+
     render() {
         return (
             <main class="py-5">
