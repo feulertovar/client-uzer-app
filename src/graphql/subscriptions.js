@@ -209,6 +209,7 @@ export const onCreateUser = /* GraphQL */ `
           id
           contactID
           userID
+          contactName
           total
           dueDate
           status
@@ -243,6 +244,7 @@ export const onUpdateUser = /* GraphQL */ `
           id
           contactID
           userID
+          contactName
           total
           dueDate
           status
@@ -277,6 +279,7 @@ export const onDeleteUser = /* GraphQL */ `
           id
           contactID
           userID
+          contactName
           total
           dueDate
           status
@@ -312,6 +315,7 @@ export const onCreateContact = /* GraphQL */ `
           id
           contactID
           userID
+          contactName
           total
           dueDate
           status
@@ -349,6 +353,7 @@ export const onUpdateContact = /* GraphQL */ `
           id
           contactID
           userID
+          contactName
           total
           dueDate
           status
@@ -386,6 +391,7 @@ export const onDeleteContact = /* GraphQL */ `
           id
           contactID
           userID
+          contactName
           total
           dueDate
           status
@@ -434,6 +440,7 @@ export const onCreateInvoice = /* GraphQL */ `
         note
         company
       }
+      contactName
       total
       dueDate
       status
@@ -477,6 +484,7 @@ export const onUpdateInvoice = /* GraphQL */ `
         note
         company
       }
+      contactName
       total
       dueDate
       status
@@ -520,6 +528,7 @@ export const onDeleteInvoice = /* GraphQL */ `
         note
         company
       }
+      contactName
       total
       dueDate
       status

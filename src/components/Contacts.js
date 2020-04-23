@@ -84,7 +84,7 @@ class Contacts extends Component {
                                   <h4 class="media-heading">{contact.firstName}</h4>
                                   <address>
                                   {contact.email || `No Email Specified`} <br />
-                                  {contact.phoneNumber || `No phone number specified`}
+                                  {contact.phoneNumber || `No phone number`}
                                   </address>
                               </div>
                               </div>

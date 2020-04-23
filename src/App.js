@@ -20,9 +20,6 @@ import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (

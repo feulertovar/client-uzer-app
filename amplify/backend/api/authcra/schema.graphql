@@ -43,13 +43,14 @@ type Contact @model
 }
 
 type Invoice @model 
-  @key(name: "byContact", fields: ["contactID"])
+  @key(name: "byContact", fields: ["contactID", "contactName"])
   @key(name: "byUser", fields: ["userID"]) {
   id: ID!
   contactID: ID!
   userID: ID!
   user: User @connection(fields: ["userID"])
   contact: Contact @connection(fields: ["contactID"])
+  contactName: String!
   total: Float!
   dueDate: Int!
   status: String!
