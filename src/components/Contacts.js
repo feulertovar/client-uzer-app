@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listContacts } from '../graphql/queries';
+import { deleteContact }from '../graphql/mutations';
 
 class Contacts extends Component {
     constructor(props){
@@ -8,11 +9,16 @@ class Contacts extends Component {
         this.state = { contacts: null }
         this.fetchContacts = this.fetchContacts.bind(this);
         this.viewNewContactForm = this.viewNewContactForm.bind(this);
+        this.deleteContactForm = this.deleteContactForm.bind(this);
+        this.viewUpdateContactForm = this.viewUpdateContactForm.bind(this);
     }
 
     componentDidMount() {
         this.fetchContacts();
-        console.log(this.props);
+    }
+
+    componentDidUpdate() {
+        console.log('change occurred in the DOM')
     }
 
     async fetchContacts () {
@@ -27,9 +33,25 @@ class Contacts extends Component {
     }
 
     viewNewContactForm () {
-        console.log(this.props);
         console.log("viewNewContactForm button clicked");
         this.props.history.push('/new-contact');
+    }
+
+    async deleteContactForm (id) {
+        console.log(id)
+        try {
+            await API.graphql(graphqlOperation(deleteContact, { input: {id}} ))
+        }
+        catch (err) {
+            console.log('error deleting contact', err);
+        }
+
+        this.props.history.push('/contacts');
+    }
+
+    viewUpdateContactForm (id) {
+        console.log("viewUpdateContactForm button clicked");
+        this.props.history.push(`/update-contact/${id}`);
     }
 
     render() {
@@ -43,7 +65,7 @@ class Contacts extends Component {
                 <div class="row">
                 <div class="col-md-3">
                 <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active">All Contact <span class="badge badge-secondary badge-pill">5</span></a>
+        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active">All Contacts<span class="badge badge-secondary badge-pill">{contacts ? contacts.length : 0}</span></a>
                     <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Friends <span class="badge badge-pill badge-secondary">0</span></a>
                     <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Duplicates <span class="badge badge-pill badge-secondary">5</span></a>
                     <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Other <span class="badge badge-pill badge-secondary">5</span></a>
@@ -74,15 +96,12 @@ class Contacts extends Component {
                           </td>
                           <td width="130" class="middle">
                               <div>
-                              <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
-                                  <i class="fa fa-paper-plane"></i>
-                              </a>
-                              <a href="update-contact" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
-                                  <i class="fa fa-edit"></i>
-                              </a>
-                              <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Delete">
+                              <button class="btn btn-outline-primary btn-circle" onClick={() => this.viewUpdateContactForm(contact.id)}>
+                                <i class="fa fa-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-circle btn-xs" title="Delete" onClick={() => this.deleteContactForm(contact.id)}>
                                   <i class="fa fa-times"></i>
-                              </a>
+                              </button>
                               </div>
                           </td>
                       </tr>  
