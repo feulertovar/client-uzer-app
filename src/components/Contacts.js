@@ -8,11 +8,11 @@ class Contacts extends Component {
         this.state = { contacts: null }
         this.fetchContacts = this.fetchContacts.bind(this);
         this.viewNewContactForm = this.viewNewContactForm.bind(this);
+        this.viewUpdateContactForm = this.viewUpdateContactForm.bind(this);
     }
 
     componentDidMount() {
         this.fetchContacts();
-        console.log(this.props);
     }
 
     async fetchContacts () {
@@ -27,9 +27,13 @@ class Contacts extends Component {
     }
 
     viewNewContactForm () {
-        console.log(this.props);
         console.log("viewNewContactForm button clicked");
         this.props.history.push('/new-contact');
+    }
+
+    viewUpdateContactForm (id) {
+        console.log("viewUpdateContactForm button clicked");
+        this.props.history.push(`/update-contact/${id}`);
     }
 
     render() {
@@ -74,12 +78,9 @@ class Contacts extends Component {
                           </td>
                           <td width="130" class="middle">
                               <div>
-                              <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
-                                  <i class="fa fa-paper-plane"></i>
-                              </a>
-                              <a href="update-contact" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
-                                  <i class="fa fa-edit"></i>
-                              </a>
+                              <button class="btn btn-outline-primary btn-circle" onClick={() => this.viewUpdateContactForm(contact.id)}>
+                                <i class="fa fa-edit"></i>
+                              </button>
                               <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Delete">
                                   <i class="fa fa-times"></i>
                               </a>

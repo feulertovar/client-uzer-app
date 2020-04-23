@@ -15,37 +15,16 @@ import NewContact from './components/NewContact';
 import NewInvoice from './components/NewInvoice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withAuthenticator } from 'aws-amplify-react'
-import Amplify, { Auth, API, graphqlOperation } from 'aws-amplify';
-import { listBlogs } from './graphql/queries';
+import Amplify from 'aws-amplify';
 import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { blogs: null }
-    this.fetchBlogs = this.fetchBlogs.bind(this);
-  }
-
-  componentDidMount() {
-    this.fetchBlogs();
-    // console.log(Auth.user);
-  }
-
-  async fetchBlogs () {
-    try {
-      const blogsData = await API.graphql(graphqlOperation(listBlogs))
-      const blogs = blogsData.data.listBlogs.items
-      this.setState({blogs});
-    } 
-    catch (err) {
-      console.log('error fetching blogs =>', err);
-    }
   }
 
   render() {
-
-    console.log(this.state);
     return (
       <Router>
       <div className="App">
@@ -71,7 +50,7 @@ class App extends Component {
               <Route exact path="/" component={Dashboard} />
               <Route path="/invoices" component={Invoices} />
               <Route path="/new-invoice" component={NewInvoice} />
-              <Route path="/update-contact" component={UpdateContact} />
+              <Route path="/update-contact/:id" component={UpdateContact} />
               <Route path="/update-invoice" component={UpdateInvoice} />
             </Switch>
       </div>

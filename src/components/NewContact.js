@@ -13,12 +13,12 @@ class NewContact extends Component {
         super(props);
         this.state = {
             validated: false,
-            firstName: null,
-            lastName: null,
-            email: null,
-            company: null,
-            note: null,
-            phoneNumber: null
+            firstName: undefined,
+            lastName: undefined,
+            email: undefined,
+            company: undefined,
+            note: undefined,
+            phoneNumber: undefined
         };
         this.createNewContact = this.createNewContact.bind(this);
         this.cancelContactForm = this.cancelContactForm.bind(this);

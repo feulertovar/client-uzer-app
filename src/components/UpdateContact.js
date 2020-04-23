@@ -1,100 +1,195 @@
 import React, { Component } from 'react';
+import { API, graphqlOperation } from 'aws-amplify';
+import { updateContact } from '../graphql/mutations';
+import { getContact } from '../graphql/queries';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
 
 class UpdateContact extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            validated: false,
+            firstName: undefined,
+            lastName: undefined,
+            email: undefined,
+            company: undefined,
+            note: undefined,
+            phoneNumber: undefined 
+        }
+
+        this.updateContact = this.updateContact.bind(this);
+        this.cancelContactForm = this.cancelContactForm.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.fetchContact = this.fetchContact.bind(this);
+    }
+
+    componentDidMount() {
+        this.fetchContact();
+    }
+
+    async fetchContact () {
+        const { match: { params: { id } } } = this.props;
+        try {
+            const contactData = await API.graphql(graphqlOperation(getContact, { id }));
+            const contact = contactData.data.getContact;
+            this.setState({...contact});
+        }
+        catch (err) {
+            console.log('error fetching contact', err);
+        }
+    }
+
+    async updateContact(e) {
+        const { id, userID, firstName, lastName, email, company, note, phoneNumber } = this.state;
+        if (e.currentTarget.checkValidity() === false) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        this.setState({validated: true});
+
+        const contactInfo = {
+            id,
+            userID,
+            firstName,
+            lastName,
+            email,
+            company,
+            note,
+            phoneNumber 
+        };
+        try { await API.graphql(graphqlOperation(updateContact, { input: contactInfo })) }
+        catch (err) { console.log('error updating contact', err); }
+    }
+
+    cancelContactForm () {
+        return this.props.history.push('/contacts');
+    }
+
+    handleChange (e) {
+        this.setState({[e.target.name]: e.target.value})
+    }
 
     render() {
         return (
-            <main class="py-5">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <div class="card">
-                                <div class="card-header">
-                                    <strong>Update Contact</strong>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-9">
-                                            <div class="form-group row">
-                                                <label for="name" class="col-md-3 col-form-label">Name</label>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name" />
-                                                </div>
-                                            </div>
-        
-                                            <div class="form-group row">
-                                                <label for="company" class="col-md-3 col-form-label">Company</label>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="company" id="company" class="form-control" placeholder="Optional" />
-                                                </div>
-                                            </div>
-        
-                                            <div class="form-group row">
-                                                <label for="email" class="col-md-3 col-form-label">Email</label>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="email" id="email" class="form-control" placeholder="example@example.com" />
-                                                </div>
-                                            </div>
-        
-                                            <div class="form-group row">
-                                                <label for="phone" class="col-md-3 col-form-label">Phone</label>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="phone" id="phone" class="form-control" placeholder="e.g. 999-999-9999"/>
-                                                </div>
-                                            </div>
-        
-                                            <div class="form-group row">
-                                                <label for="name" class="col-md-3 col-form-label">Note</label>
-                                                <div class="col-md-8">
-                                                    <textarea name="address" id="address" rows="3" class="form-control"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="group" class="col-md-3 col-form-label">Group</label>
-                                                <div class="col-md-5">
-                                                    <select name="group" id="group" class="form-control">
-                                                        <option value="">Select group</option>
-                                                        <option value="1">Friends</option>
-                                                        <option value="3">Other</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <a href="#" id="add-group-btn" class="btn btn-outline-secondary btn-block">Add Group</a>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row" id="add-new-group">
-                                                <div class="offset-md-3 col-md-8">
-                                                    <div class="input-group mb-3">
-                                                        <input type="text" class="form-control" name="group_id" placeholder="Enter group name" aria-label="Enter group name" aria-describedby="button-addon2" />
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-                                                                <i class="fa fa-check"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-        
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="row">
-                                                <div class="col-md-offset-3 col-md-6">
-                                                    <button type="submit" class="btn btn-primary">Save</button>
-                                                    <a href="contacts" class="btn btn-outline-secondary">Cancel</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
+            <Container style={{padding: '3.5rem', maxWidth: '800px'}}>
+            <Card className="text-center">
+                <Card.Header>New Contact</Card.Header>
+                <Form
+                    style={{paddingTop: '3.25rem'}}
+                    onSubmit={(e) => this.updateContact(e)}
+                    validated={this.state.validated}
+                >
+                <Card.Body>
+                        <Form.Group as={Row} controlId="contactForm.firstName">
+                            <Form.Label column sm={3}>First Name</Form.Label>
+                            <Col sm={7}>
+                                <Form.Control required
+                                    onChange={this.handleChange}
+                                    value={this.state.firstName}
+                                    name="firstName"
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="contactForm.lastName">
+                            <Form.Label column sm={3}>Last Name</Form.Label>
+                            <Col sm={7}>
+                                <Form.Control placeholder={"Last Name"}
+                                    onChange={this.handleChange} 
+                                    value={this.state.lastName}
+                                    name="lastName"
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="contactForm.company">
+                            <Form.Label column sm={3}>Company</Form.Label>
+                            <Col sm={7}>
+                                <Form.Control placeholder="Company"
+                                    onChange={this.handleChange}
+                                    value={this.state.company}
+                                    name="company"
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="contactForm.email">
+                            <Form.Label column sm={3}>Email</Form.Label>
+                            <Col sm={7}>
+                                <Form.Control
+                                    required type="email"
+                                    placeholder="example@example.com"
+                                    onChange={this.handleChange}
+                                    value={this.state.email}
+                                    name="email"
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="contactForm.phoneNumber">
+                            <Form.Label column sm={3}>Phone</Form.Label>
+                            <Col sm={7}>
+                                <Form.Control
+                                    placeholder="999-999-9999"
+                                    onChange={this.handleChange}
+                                    value={this.state.phoneNumber}
+                                    name="phoneNumber"
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="contactForm.note">
+                            <Form.Label column sm={3}>Note</Form.Label>
+                            <Col sm={7}>
+                                <Form.Control 
+                                    as="textarea" rows={3} 
+                                    onChange={this.handleChange}
+                                    value={this.state.note}
+                                    name="note"
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="contactForm.group">
+                            <Form.Label column sm={3}>Group</Form.Label>
+                            <Col sm={4}>
+                                <Form.Control as="select">
+                                    <option>Select group</option>
+                                    <option>Friends</option>
+                                    <option>Other</option>
+                                </Form.Control>
+                            </Col>
+                            <Col sm={3}>
+                                <Button
+                                    variant="light"
+                                    type="submit"
+                                >
+                                        Add Group
+                                </Button>
+                            </Col>
+                        </Form.Group>
+                </Card.Body>
+                <Card.Footer>
+                    <Row className="justify-content-md-center">
+                        <Col sm={6}>
+                        <Button
+                            type="submit"
+                        >
+                            Save
+                        </Button>
+                        </Col>
+                        <Col sm={4}>
+                        <Button
+                            variant="outline-secondary"
+                            onClick={this.cancelContactForm}
+                        >
+                            Cancel
+                        </Button>
+                        </Col>
+                    </Row>
+                </Card.Footer>
+                </Form>
+            </Card>
+            </Container>
         )
     }
 }
