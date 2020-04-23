@@ -1,0 +1,56 @@
+type Blog @model {
+  id: ID!
+  name: String!
+  posts: [Post] @connection(keyName: "byBlog", fields: ["id"])
+}
+
+type Post @model @key(name: "byBlog", fields: ["blogID"]) {
+  id: ID!
+  title: String!
+  blogID: ID!
+  blog: Blog @connection(fields: ["blogID"])
+  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+}
+
+type Comment @model @key(name: "byPost", fields: ["postID", "content"]) {
+  id: ID!
+  postID: ID!
+  post: Post @connection(fields: ["postID"])
+  content: String!
+}
+
+type User @model {
+  id: ID!
+  userPoolID: String
+  username: String
+  email: String
+  contacts: [Contact] @connection(keyName: "byUser", fields: ["id"])
+  invoices: [Invoice] @connection(keyName: "byUser", fields: ["id"])
+}
+
+type Contact @model
+  @key(name: "byUser", fields: ["userID", "firstName"]) {
+  id: ID!
+  firstName: String!
+  lastName: String
+  userID: ID!
+  user: User @connection(fields: ["userID"])
+  email: String
+  phoneNumber: String
+  invoices: [Invoice] @connection(keyName: "byContact", fields: ["id"])
+  note: String
+  company: String
+}
+
+type Invoice @model 
+  @key(name: "byContact", fields: ["contactID"])
+  @key(name: "byUser", fields: ["userID"]) {
+  id: ID!
+  contactID: ID!
+  userID: ID!
+  user: User @connection(fields: ["userID"])
+  contact: Contact @connection(fields: ["contactID"])
+  total: Float!
+  dueDate: Int!
+  status: String!
+}

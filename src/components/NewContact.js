@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
+import { API, graphqlOperations } from 'aws-amplify';
+import { createContact } from '../graphql/mutations';
 
 class NewContact extends Component {
+    constructor(props){
+        super(props);
+        this.createNewContact = this.createNewContact.bind(this);
+    }
     
     componentDidMount() {
         console.log("new contact component triggered");
+    }
+
+    createNewContact (e) {
+        console.log("new contact form submitted");
     }
 
     render() {
@@ -22,7 +32,7 @@ class NewContact extends Component {
                                         <div class="form-group row">
                                             <label for="name" class="col-md-3 col-form-label">Name</label>
                                             <div class="col-md-8">
-                                                <input type="text" name="name" id="name" class="form-control" placeholder="Name" />
+                                                <input type="text" name="firstName" id="name" class="form-control" placeholder="Name" />
                                             </div>
                                         </div>
     
@@ -43,14 +53,14 @@ class NewContact extends Component {
                                         <div class="form-group row">
                                             <label for="phone" class="col-md-3 col-form-label">Phone</label>
                                             <div class="col-md-8">
-                                                <input type="text" name="phone" id="phone" class="form-control" placeholder="e.g. 999-999-9999" />
+                                                <input type="text" name="phoneNumber" id="phone" class="form-control" placeholder="e.g. 999-999-9999" />
                                             </div>
                                         </div>
     
                                         <div class="form-group row">
                                             <label for="name" class="col-md-3 col-form-label">Note</label>
                                             <div class="col-md-8">
-                                                <textarea name="address" id="address" rows="3" class="form-control"></textarea>
+                                                <textarea name="note" id="address" rows="3" class="form-control"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -87,7 +97,7 @@ class NewContact extends Component {
                                     <div class="col-md-8">
                                         <div class="row">
                                             <div class="col-md-offset-3 col-md-6">
-                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                <button type="submit" class="btn btn-primary" onClick={e => this.createNewContact(e)}>Save</button>
                                                 <a href="contacts" class="btn btn-outline-secondary">Cancel</a>
                                             </div>
                                         </div>

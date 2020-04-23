@@ -1,0 +1,471 @@
+type Blog {
+  id: ID!
+  name: String!
+  posts(filter: ModelPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelPostConnection
+}
+
+type Post {
+  id: ID!
+  title: String!
+  blogID: ID!
+  blog: Blog
+  comments(content: ModelStringKeyConditionInput, filter: ModelCommentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCommentConnection
+}
+
+type Comment {
+  id: ID!
+  postID: ID!
+  post: Post
+  content: String!
+}
+
+type User {
+  id: ID!
+  userPoolID: String
+  username: String
+  email: String
+  contacts(firstName: ModelStringKeyConditionInput, filter: ModelContactFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelContactConnection
+  invoices(filter: ModelInvoiceFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelInvoiceConnection
+}
+
+type Contact {
+  id: ID!
+  firstName: String!
+  lastName: String
+  userID: ID!
+  user: User
+  email: String
+  phoneNumber: String
+  invoices(filter: ModelInvoiceFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelInvoiceConnection
+  note: String
+  company: String
+}
+
+type Invoice {
+  id: ID!
+  contactID: ID!
+  userID: ID!
+  user: User
+  contact: Contact
+  total: Float!
+  dueDate: Int!
+  status: String!
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelBlogConnection {
+  items: [Blog]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelBlogFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  and: [ModelBlogFilterInput]
+  or: [ModelBlogFilterInput]
+  not: ModelBlogFilterInput
+}
+
+type Query {
+  getBlog(id: ID!): Blog
+  listBlogs(filter: ModelBlogFilterInput, limit: Int, nextToken: String): ModelBlogConnection
+  getPost(id: ID!): Post
+  listPosts(filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection
+  getComment(id: ID!): Comment
+  listComments(filter: ModelCommentFilterInput, limit: Int, nextToken: String): ModelCommentConnection
+  getUser(id: ID!): User
+  listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection
+  getContact(id: ID!): Contact
+  listContacts(filter: ModelContactFilterInput, limit: Int, nextToken: String): ModelContactConnection
+  getInvoice(id: ID!): Invoice
+  listInvoices(filter: ModelInvoiceFilterInput, limit: Int, nextToken: String): ModelInvoiceConnection
+}
+
+input CreateBlogInput {
+  id: ID
+  name: String!
+}
+
+input UpdateBlogInput {
+  id: ID!
+  name: String
+}
+
+input DeleteBlogInput {
+  id: ID
+}
+
+type Mutation {
+  createBlog(input: CreateBlogInput!, condition: ModelBlogConditionInput): Blog
+  updateBlog(input: UpdateBlogInput!, condition: ModelBlogConditionInput): Blog
+  deleteBlog(input: DeleteBlogInput!, condition: ModelBlogConditionInput): Blog
+  createPost(input: CreatePostInput!, condition: ModelPostConditionInput): Post
+  updatePost(input: UpdatePostInput!, condition: ModelPostConditionInput): Post
+  deletePost(input: DeletePostInput!, condition: ModelPostConditionInput): Post
+  createComment(input: CreateCommentInput!, condition: ModelCommentConditionInput): Comment
+  updateComment(input: UpdateCommentInput!, condition: ModelCommentConditionInput): Comment
+  deleteComment(input: DeleteCommentInput!, condition: ModelCommentConditionInput): Comment
+  createUser(input: CreateUserInput!, condition: ModelUserConditionInput): User
+  updateUser(input: UpdateUserInput!, condition: ModelUserConditionInput): User
+  deleteUser(input: DeleteUserInput!, condition: ModelUserConditionInput): User
+  createContact(input: CreateContactInput!, condition: ModelContactConditionInput): Contact
+  updateContact(input: UpdateContactInput!, condition: ModelContactConditionInput): Contact
+  deleteContact(input: DeleteContactInput!, condition: ModelContactConditionInput): Contact
+  createInvoice(input: CreateInvoiceInput!, condition: ModelInvoiceConditionInput): Invoice
+  updateInvoice(input: UpdateInvoiceInput!, condition: ModelInvoiceConditionInput): Invoice
+  deleteInvoice(input: DeleteInvoiceInput!, condition: ModelInvoiceConditionInput): Invoice
+}
+
+input ModelBlogConditionInput {
+  name: ModelStringInput
+  and: [ModelBlogConditionInput]
+  or: [ModelBlogConditionInput]
+  not: ModelBlogConditionInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Subscription {
+  onCreateBlog: Blog @aws_subscribe(mutations: ["createBlog"])
+  onUpdateBlog: Blog @aws_subscribe(mutations: ["updateBlog"])
+  onDeleteBlog: Blog @aws_subscribe(mutations: ["deleteBlog"])
+  onCreatePost: Post @aws_subscribe(mutations: ["createPost"])
+  onUpdatePost: Post @aws_subscribe(mutations: ["updatePost"])
+  onDeletePost: Post @aws_subscribe(mutations: ["deletePost"])
+  onCreateComment: Comment @aws_subscribe(mutations: ["createComment"])
+  onUpdateComment: Comment @aws_subscribe(mutations: ["updateComment"])
+  onDeleteComment: Comment @aws_subscribe(mutations: ["deleteComment"])
+  onCreateUser: User @aws_subscribe(mutations: ["createUser"])
+  onUpdateUser: User @aws_subscribe(mutations: ["updateUser"])
+  onDeleteUser: User @aws_subscribe(mutations: ["deleteUser"])
+  onCreateContact: Contact @aws_subscribe(mutations: ["createContact"])
+  onUpdateContact: Contact @aws_subscribe(mutations: ["updateContact"])
+  onDeleteContact: Contact @aws_subscribe(mutations: ["deleteContact"])
+  onCreateInvoice: Invoice @aws_subscribe(mutations: ["createInvoice"])
+  onUpdateInvoice: Invoice @aws_subscribe(mutations: ["updateInvoice"])
+  onDeleteInvoice: Invoice @aws_subscribe(mutations: ["deleteInvoice"])
+}
+
+type ModelPostConnection {
+  items: [Post]
+  nextToken: String
+}
+
+input ModelPostFilterInput {
+  id: ModelIDInput
+  title: ModelStringInput
+  blogID: ModelIDInput
+  and: [ModelPostFilterInput]
+  or: [ModelPostFilterInput]
+  not: ModelPostFilterInput
+}
+
+input CreatePostInput {
+  id: ID
+  title: String!
+  blogID: ID!
+}
+
+input UpdatePostInput {
+  id: ID!
+  title: String
+  blogID: ID
+}
+
+input DeletePostInput {
+  id: ID
+}
+
+input ModelPostConditionInput {
+  title: ModelStringInput
+  blogID: ModelIDInput
+  and: [ModelPostConditionInput]
+  or: [ModelPostConditionInput]
+  not: ModelPostConditionInput
+}
+
+type ModelCommentConnection {
+  items: [Comment]
+  nextToken: String
+}
+
+input ModelCommentFilterInput {
+  id: ModelIDInput
+  postID: ModelIDInput
+  content: ModelStringInput
+  and: [ModelCommentFilterInput]
+  or: [ModelCommentFilterInput]
+  not: ModelCommentFilterInput
+}
+
+input CreateCommentInput {
+  id: ID
+  postID: ID!
+  content: String!
+}
+
+input UpdateCommentInput {
+  id: ID!
+  postID: ID
+  content: String
+}
+
+input DeleteCommentInput {
+  id: ID
+}
+
+input ModelCommentConditionInput {
+  postID: ModelIDInput
+  content: ModelStringInput
+  and: [ModelCommentConditionInput]
+  or: [ModelCommentConditionInput]
+  not: ModelCommentConditionInput
+}
+
+type ModelUserConnection {
+  items: [User]
+  nextToken: String
+}
+
+input ModelUserFilterInput {
+  id: ModelIDInput
+  userPoolID: ModelStringInput
+  username: ModelStringInput
+  email: ModelStringInput
+  and: [ModelUserFilterInput]
+  or: [ModelUserFilterInput]
+  not: ModelUserFilterInput
+}
+
+input CreateUserInput {
+  id: ID
+  userPoolID: String
+  username: String
+  email: String
+}
+
+input UpdateUserInput {
+  id: ID!
+  userPoolID: String
+  username: String
+  email: String
+}
+
+input DeleteUserInput {
+  id: ID
+}
+
+input ModelUserConditionInput {
+  userPoolID: ModelStringInput
+  username: ModelStringInput
+  email: ModelStringInput
+  and: [ModelUserConditionInput]
+  or: [ModelUserConditionInput]
+  not: ModelUserConditionInput
+}
+
+type ModelContactConnection {
+  items: [Contact]
+  nextToken: String
+}
+
+input ModelContactFilterInput {
+  id: ModelIDInput
+  firstName: ModelStringInput
+  lastName: ModelStringInput
+  userID: ModelIDInput
+  email: ModelStringInput
+  phoneNumber: ModelStringInput
+  note: ModelStringInput
+  company: ModelStringInput
+  and: [ModelContactFilterInput]
+  or: [ModelContactFilterInput]
+  not: ModelContactFilterInput
+}
+
+input CreateContactInput {
+  id: ID
+  firstName: String!
+  lastName: String
+  userID: ID!
+  email: String
+  phoneNumber: String
+  note: String
+  company: String
+}
+
+input UpdateContactInput {
+  id: ID!
+  firstName: String
+  lastName: String
+  userID: ID
+  email: String
+  phoneNumber: String
+  note: String
+  company: String
+}
+
+input DeleteContactInput {
+  id: ID
+}
+
+input ModelContactConditionInput {
+  firstName: ModelStringInput
+  lastName: ModelStringInput
+  userID: ModelIDInput
+  email: ModelStringInput
+  phoneNumber: ModelStringInput
+  note: ModelStringInput
+  company: ModelStringInput
+  and: [ModelContactConditionInput]
+  or: [ModelContactConditionInput]
+  not: ModelContactConditionInput
+}
+
+type ModelInvoiceConnection {
+  items: [Invoice]
+  nextToken: String
+}
+
+input ModelInvoiceFilterInput {
+  id: ModelIDInput
+  contactID: ModelIDInput
+  userID: ModelIDInput
+  total: ModelFloatInput
+  dueDate: ModelIntInput
+  status: ModelStringInput
+  and: [ModelInvoiceFilterInput]
+  or: [ModelInvoiceFilterInput]
+  not: ModelInvoiceFilterInput
+}
+
+input CreateInvoiceInput {
+  id: ID
+  contactID: ID!
+  userID: ID!
+  total: Float!
+  dueDate: Int!
+  status: String!
+}
+
+input UpdateInvoiceInput {
+  id: ID!
+  contactID: ID
+  userID: ID
+  total: Float
+  dueDate: Int
+  status: String
+}
+
+input DeleteInvoiceInput {
+  id: ID
+}
+
+input ModelInvoiceConditionInput {
+  contactID: ModelIDInput
+  userID: ModelIDInput
+  total: ModelFloatInput
+  dueDate: ModelIntInput
+  status: ModelStringInput
+  and: [ModelInvoiceConditionInput]
+  or: [ModelInvoiceConditionInput]
+  not: ModelInvoiceConditionInput
+}
+
+input ModelStringKeyConditionInput {
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  between: [String]
+  beginsWith: String
+}

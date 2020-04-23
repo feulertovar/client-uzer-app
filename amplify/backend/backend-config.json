@@ -4,5 +4,23 @@
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation"
 		}
+	},
+	"api": {
+		"authcra": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "testing",
+							"apiKeyExpirationDays": "30"
+						}
+					}
+				}
+			}
+		}
 	}
 }

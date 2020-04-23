@@ -15,44 +15,64 @@ import NewContact from './components/NewContact';
 import NewInvoice from './components/NewInvoice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withAuthenticator } from 'aws-amplify-react'
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify, { Auth, API, graphqlOperation } from 'aws-amplify';
+import { listBlogs } from './graphql/queries';
 import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { blogs: null }
+    this.fetchBlogs = this.fetchBlogs.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchBlogs();
+    // console.log(Auth.user);
+  }
+
+  async fetchBlogs () {
+    try {
+      const blogsData = await API.graphql(graphqlOperation(listBlogs))
+      const blogs = blogsData.data.listBlogs.items
+      this.setState({blogs});
+    } 
+    catch (err) {
+      console.log('error fetching blogs =>', err);
+    }
+  }
+
   render() {
+
+    console.log(this.state);
     return (
       <Router>
       <div className="App">
-            <nav className="navbar navbar-inverse">
+          <nav className="navbar navbar-inverse">
           <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
           <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
           <link href="assets/css/style.css" rel="stylesheet" />
-          <script></script>
                 <div className="container-fluid">
                     <div className="navbar-header">
                     <a className="navbar-brand" href="#">UZERS</a>
                     </div>
                     <ul className="nav navbar-nav">
-                      <Link to="/dashboard">Home</Link>
+                      <Link to="/">Home</Link>
                       <Link to="/contacts">Contacts</Link>
                       <Link to="/invoices">Invoices</Link>
                     </ul>
                 </div>
-            </nav>
+          </nav>
 
             <Switch>
               <Route path="/contacts" component={Contacts} />
               <Route path="/new-contact" component={NewContact} />
-              <Route path="/dashboard" component={Dashboard} />
+              <Route exact path="/" component={Dashboard} />
               <Route path="/invoices" component={Invoices} />
               <Route path="/new-invoice" component={NewInvoice} />
-              <Route path="/update-contact">
-                <UpdateContact />
-              </Route>
-              <Route path="/update-invoice">
-                <UpdateInvoice />
-              </Route>
+              <Route path="/update-contact" component={UpdateContact} />
+              <Route path="/update-invoice" component={UpdateInvoice} />
             </Switch>
       </div>
       </Router>
