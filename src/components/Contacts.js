@@ -43,7 +43,7 @@ class Contacts extends Component {
                 <div class="row">
                 <div class="col-md-3">
                 <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active">All Contact <span class="badge badge-secondary badge-pill">5</span></a>
+        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active">All Contacts<span class="badge badge-secondary badge-pill">{contacts ? contacts.length : 0}</span></a>
                     <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Friends <span class="badge badge-pill badge-secondary">0</span></a>
                     <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Duplicates <span class="badge badge-pill badge-secondary">5</span></a>
                     <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Other <span class="badge badge-pill badge-secondary">5</span></a>
