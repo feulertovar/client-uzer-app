@@ -17,10 +17,6 @@ class Contacts extends Component {
         this.fetchContacts();
     }
 
-    componentDidUpdate() {
-        console.log('change occurred in the DOM')
-    }
-
     async fetchContacts () {
         try {
             const contactsData = await API.graphql(graphqlOperation(listContacts))
@@ -45,7 +41,7 @@ class Contacts extends Component {
         catch (err) {
             console.log('error deleting contact', err);
         }
-
+        this.fetchContacts();
         this.props.history.push('/contacts');
     }
 
