@@ -149,7 +149,6 @@ export const getUser = /* GraphQL */ `
           id
           contactID
           userID
-          contactName
           total
           dueDate
           status
@@ -208,7 +207,6 @@ export const getContact = /* GraphQL */ `
           id
           contactID
           userID
-          contactName
           total
           dueDate
           status
@@ -287,7 +285,6 @@ export const getInvoice = /* GraphQL */ `
         note
         company
       }
-      contactName
       total
       dueDate
       status
@@ -321,7 +318,6 @@ export const listInvoices = /* GraphQL */ `
           note
           company
         }
-        contactName
         total
         dueDate
         status

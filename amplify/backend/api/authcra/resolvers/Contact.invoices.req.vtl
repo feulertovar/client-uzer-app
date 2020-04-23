@@ -10,44 +10,6 @@
     }
   }
 } )
-## [Start] Applying Key Condition **
-#if( !$util.isNull($ctx.args.contactName) && !$util.isNull($ctx.args.contactName.beginsWith) )
-  #set( $query.expression = "$query.expression AND begins_with(#sortKey, :sortKey)" )
-  $util.qr($query.expressionNames.put("#sortKey", "contactName"))
-  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.contactName.beginsWith" }))
-#end
-#if( !$util.isNull($ctx.args.contactName) && !$util.isNull($ctx.args.contactName.between) )
-  #set( $query.expression = "$query.expression AND #sortKey BETWEEN :sortKey0 AND :sortKey1" )
-  $util.qr($query.expressionNames.put("#sortKey", "contactName"))
-  $util.qr($query.expressionValues.put(":sortKey0", { "S": "$ctx.args.contactName.between[0]" }))
-  $util.qr($query.expressionValues.put(":sortKey1", { "S": "$ctx.args.contactName.between[1]" }))
-#end
-#if( !$util.isNull($ctx.args.contactName) && !$util.isNull($ctx.args.contactName.eq) )
-  #set( $query.expression = "$query.expression AND #sortKey = :sortKey" )
-  $util.qr($query.expressionNames.put("#sortKey", "contactName"))
-  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.contactName.eq" }))
-#end
-#if( !$util.isNull($ctx.args.contactName) && !$util.isNull($ctx.args.contactName.lt) )
-  #set( $query.expression = "$query.expression AND #sortKey < :sortKey" )
-  $util.qr($query.expressionNames.put("#sortKey", "contactName"))
-  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.contactName.lt" }))
-#end
-#if( !$util.isNull($ctx.args.contactName) && !$util.isNull($ctx.args.contactName.le) )
-  #set( $query.expression = "$query.expression AND #sortKey <= :sortKey" )
-  $util.qr($query.expressionNames.put("#sortKey", "contactName"))
-  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.contactName.le" }))
-#end
-#if( !$util.isNull($ctx.args.contactName) && !$util.isNull($ctx.args.contactName.gt) )
-  #set( $query.expression = "$query.expression AND #sortKey > :sortKey" )
-  $util.qr($query.expressionNames.put("#sortKey", "contactName"))
-  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.contactName.gt" }))
-#end
-#if( !$util.isNull($ctx.args.contactName) && !$util.isNull($ctx.args.contactName.ge) )
-  #set( $query.expression = "$query.expression AND #sortKey >= :sortKey" )
-  $util.qr($query.expressionNames.put("#sortKey", "contactName"))
-  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.contactName.ge" }))
-#end
-## [End] Applying Key Condition **
 {
   "version": "2017-02-28",
   "operation": "Query",

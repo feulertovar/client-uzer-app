@@ -135,10 +135,6 @@
                         "AttributeType": "S"
                     },
                     {
-                        "AttributeName": "contactName",
-                        "AttributeType": "S"
-                    },
-                    {
                         "AttributeName": "userID",
                         "AttributeType": "S"
                     }
@@ -198,10 +194,6 @@
                             {
                                 "AttributeName": "contactID",
                                 "KeyType": "HASH"
-                            },
-                            {
-                                "AttributeName": "contactName",
-                                "KeyType": "RANGE"
                             }
                         ],
                         "Projection": {

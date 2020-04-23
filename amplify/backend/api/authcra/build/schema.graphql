@@ -36,7 +36,7 @@ type Contact {
   user: User
   email: String
   phoneNumber: String
-  invoices(contactName: ModelStringKeyConditionInput, filter: ModelInvoiceFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelInvoiceConnection
+  invoices(filter: ModelInvoiceFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelInvoiceConnection
   note: String
   company: String
 }
@@ -47,7 +47,6 @@ type Invoice {
   userID: ID!
   user: User
   contact: Contact
-  contactName: String!
   total: Float!
   dueDate: Int!
   status: String!
@@ -420,7 +419,6 @@ input ModelInvoiceFilterInput {
   id: ModelIDInput
   contactID: ModelIDInput
   userID: ModelIDInput
-  contactName: ModelStringInput
   total: ModelFloatInput
   dueDate: ModelIntInput
   status: ModelStringInput
@@ -433,7 +431,6 @@ input CreateInvoiceInput {
   id: ID
   contactID: ID!
   userID: ID!
-  contactName: String!
   total: Float!
   dueDate: Int!
   status: String!
@@ -443,7 +440,6 @@ input UpdateInvoiceInput {
   id: ID!
   contactID: ID
   userID: ID
-  contactName: String
   total: Float
   dueDate: Int
   status: String
@@ -456,7 +452,6 @@ input DeleteInvoiceInput {
 input ModelInvoiceConditionInput {
   contactID: ModelIDInput
   userID: ModelIDInput
-  contactName: ModelStringInput
   total: ModelFloatInput
   dueDate: ModelIntInput
   status: ModelStringInput
