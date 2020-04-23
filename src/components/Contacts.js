@@ -1,8 +1,41 @@
 import React, { Component } from 'react';
+import { API, graphqlOperation } from 'aws-amplify';
+import { listContacts } from '../graphql/queries';
 
 class Contacts extends Component {
+    constructor(props){
+        super(props);
+        this.state = { contacts: null }
+        this.fetchContacts = this.fetchContacts.bind(this);
+        this.viewNewContactForm = this.viewNewContactForm.bind(this);
+    }
+
+    componentDidMount() {
+        this.fetchContacts();
+        console.log(this.props);
+    }
+
+    async fetchContacts () {
+        try {
+            const contactsData = await API.graphql(graphqlOperation(listContacts))
+            const contacts = contactsData.data.listContacts.items
+            this.setState({contacts})
+        }
+        catch (err) {
+            console.log('error fetching contacts', err);
+        }
+    }
+
+    viewNewContactForm () {
+        console.log(this.props);
+        console.log("viewNewContactForm button clicked");
+        this.props.history.push('/new-contact');
+    }
 
     render() {
+        const { contacts } = this.state;
+        console.log(this.state)
+
         return (
             <main class="pt-5">
             <div class="container">
@@ -24,146 +57,37 @@ class Contacts extends Component {
               
                 <table class="table">
                     <tbody>
-                    <tr>
-                        <td class="middle">
-                            <div class="media">
-                            <div class="media-left">
-                                <div class="media-body">
-                                <h4 class="media-heading">Name</h4>
-                                <address>
-                                name@example.com <br />
-                                123-456-7890
-                                </address>
-                            </div>
-                            </div>
-                            </div>
-                        </td>
-                        <td width="130" class="middle">
-                            <div>
-                            <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
-                                <i class="fa fa-paper-plane"></i>
-                            </a>
-                            <a href="update-contact" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Delete">
-                                <i class="fa fa-times"></i>
-                            </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="middle">
-                            <div class="media">
-                            <div class="media-left">
-                                <div class="media-body">
-                                <h4 class="media-heading">Name</h4>
-                                <address>
-                                name@example.com <br />
-                                123-456-7890
-                                </address>
-                            </div>
-                            </div>
-                            </div>
-                        </td>
-                        <td width="130" class="middle">
-                            <div>
-                            <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
-                                <i class="fa fa-paper-plane"></i>
-                            </a>
-                            <a href="update-contact" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Edit">
-                                <i class="fa fa-times"></i>
-                            </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="middle">
-                            <div class="media">
-                            <div class="media-left">
-                                <div class="media-body">
-                                <h4 class="media-heading">Name</h4>
-                                <address>
-                                name@example.com <br />
-                                123-456-7890
-                                </address>
-                            </div>
-                            </div>
-                            </div>
-                        </td>
-                        <td width="130" class="middle">
-                            <div>
-                            <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
-                                <i class="fa fa-paper-plane"></i>
-                            </a>
-                            <a href="update-contact" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Edit">
-                                <i class="fa fa-times"></i>
-                            </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="middle">
-                            <div class="media">
-                            <div class="media-left">
-                                <div class="media-body">
-                                <h4 class="media-heading">Name</h4>
-                                <address>
-                                name@example.com <br />
-                                123-456-7890
-                                </address>
-                            </div>
-                            </div>
-                            </div>
-                        </td>
-                        <td width="130" class="middle">
-                            <div>
-                            <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
-                                <i class="fa fa-paper-plane"></i>
-                            </a>
-                            <a href="update-contact" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Edit">
-                                <i class="fa fa-times"></i>
-                            </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="middle">
-                            <div class="media">
-                            <div class="media-left">
-                                <div class="media-body">
-                                <h4 class="media-heading">Name</h4>
-                                <address>
-                                name@example.com <br />
-                                123-456-7890
-                                </address>
-                            </div>
-                            </div>
-                            </div>
-                        </td>
-                        <td width="130" class="middle">
-                            <div>
-                            <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
-                                <i class="fa fa-paper-plane"></i>
-                            </a>
-                            <a href="update-contact" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Edit">
-                                <i class="fa fa-times"></i>
-                            </a>
-                            </div>
-                        </td>
-                    </tr>
+                        { contacts ? contacts.map((contact, index) => {
+                          return (<tr key={index}>
+                          <td class="middle">
+                              <div class="media">
+                              <div class="media-left">
+                                  <div class="media-body">
+                                  <h4 class="media-heading">{contact.firstName}</h4>
+                                  <address>
+                                  {contact.email || `No Email Specified`} <br />
+                                  {contact.phoneNumber || `No phone number specified`}
+                                  </address>
+                              </div>
+                              </div>
+                              </div>
+                          </td>
+                          <td width="130" class="middle">
+                              <div>
+                              <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
+                                  <i class="fa fa-paper-plane"></i>
+                              </a>
+                              <a href="update-contact" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
+                                  <i class="fa fa-edit"></i>
+                              </a>
+                              <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Delete">
+                                  <i class="fa fa-times"></i>
+                              </a>
+                              </div>
+                          </td>
+                      </tr>  
+                        )}) : (<tr></tr>)
+                        }
                     </tbody>
                 </table>
                 <div class="card-footer">
@@ -188,14 +112,13 @@ class Contacts extends Component {
                 </div>
             </div>
             <div class="btn-follow">
-                <a href="new-contact">
                     <button
                         type="button"
                         class="btn btn-outline-primary"
+                        onClick={this.viewNewContactForm}
                     >
                         New Contact
                     </button>
-                </a>
             </div>
             </div>
             <footer class="site-footer">
@@ -203,7 +126,7 @@ class Contacts extends Component {
                          <div class="col-md-12">
                              <p>
                                  <br />
-                                 Copyright &copy;
+                                 Copyright &copy; 2020
                                  by CS473 Team B
                              </p>
                          </div>

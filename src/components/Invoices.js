@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 
 class Invoices extends Component {
+    constructor(props) {
+        super(props);
+        this.viewInvoiceForm = this.viewInvoiceForm.bind(this);
+    }
+
+    viewInvoiceForm () {
+        this.props.history.push('/new-invoice')
+    }
 
     render() {
         return (
@@ -111,7 +119,14 @@ class Invoices extends Component {
                     </div>
                     </div>
                 </div>
-                <div class="btn-follow"><a href="new-invoice"><button type="button" class="btn btn-outline-primary">New Invoice</button></a>
+                <div class="btn-follow">
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                        onClick={this.viewInvoiceForm}
+                    >
+                        New Invoice
+                    </button>
                 </div>
                 <footer class="site-footer" style={{ marginTop: '50px' }}>
                     <div class="container">
