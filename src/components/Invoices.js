@@ -90,7 +90,7 @@ class Invoices extends Component {
                                     </tr>
                                 </tbody>
                             </table>
-                             <div class="card-footer" style={{marginTop: '400px'}}>
+                             <div class="card-footer">
                                     <nav aria-label="Page Navigation">
                                         <ul class="pagination justify-content-center">
                                             <li class="page-item">
@@ -107,13 +107,7 @@ class Invoices extends Component {
                                         </ul>
                                     </nav>
                             </div>
-                        </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                </div>
-                <div class="btn-follow">
+                            <div class="btn-follow">
                     <button
                         type="button"
                         class="btn btn-outline-primary"
@@ -121,6 +115,12 @@ class Invoices extends Component {
                     >
                         New Invoice
                     </button>
+                </div>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
                 </div>
                 <footer class="site-footer" style={{ marginTop: '50px' }}>
                     <div class="container">
