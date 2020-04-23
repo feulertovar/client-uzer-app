@@ -1,16 +1,45 @@
 import React, { Component } from 'react';
+import { API, graphqlOperation } from 'aws-amplify';
+import { listInvoices } from '../graphql/queries';
 
 class Invoices extends Component {
     constructor(props) {
         super(props);
+        this.state = { invoices: null};
         this.viewInvoiceForm = this.viewInvoiceForm.bind(this);
+        this.fetchInvoices = this.fetchInvoices.bind(this);
+    }
+
+    componentDidMount() {
+        this.fetchInvoices();
     }
 
     viewInvoiceForm () {
         this.props.history.push('/new-invoice')
     }
 
+    async fetchInvoices() {
+        try {
+            const invoicesData = await API.graphql(graphqlOperation(listInvoices));
+            const invoices = invoicesData.data.listInvoices.items
+            this.setState({invoices})
+        } catch (err) {
+            console.log('error fetching invoices', err)
+        }
+    }
+
+    paymentStatusCss = (status) => {
+        if (status.toLowerCase() === 'paid'){
+            return "badge badge-secondary badge-success"
+        } else {
+            return "badge badge-secondary badge-danger"
+        }
+    }
+
     render() {
+        console.log(this.state);
+        const { invoices } = this.state;
+
         return (
             <main class="pt-5">
                 <div class="container">
@@ -35,63 +64,28 @@ class Invoices extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td class="text-center">$10.99</td>
-                                        <td class="text-center">4-1-2020</td>
-                                        <td class="text-center"><span class="badge badge-secondary badge-success">Paid</span></td>
-                                        <td width="130" class="middle">
-                                            <div>
-                                                <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
-                                                    <i class="fa fa-paper-plane"></i>
-                                                </a>
-                                                <a href="update-invoice" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Edit">
-                                                    <i class="fa fa-times"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td class="text-center">$20.00</td>
-                                        <td class="text-center">3-3-2020</td>
-                                        <td class="text-center"><span class="badge badge-secondary badge-danger">Not Paid</span></td>
-                                        <td width="130" class="middle">
-                                            <div>
-                                                <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
-                                                    <i class="fa fa-paper-plane"></i>
-                                                </a>
-                                                <a href="update-invoice" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Edit">
-                                                    <i class="fa fa-times"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td class="text-center">$600.00</td>
-                                        <td class="text-center">1-1-1990</td>
-                                        <td class="text-center"><span class="badge badge-secondary badge-danger">Overdue</span></td>
-                                        <td width="130" class="middle">
-                                            <div>
-                                                <a href="#" class="btn btn-outline-primary btn-circle btn-xs" title="Action">
-                                                    <i class="fa fa-paper-plane"></i>
-                                                </a>
-                                                <a href="update-invoice" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Edit">
-                                                    <i class="fa fa-times"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    { invoices ? invoices.map((invoice, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td>{`${invoice.contact.firstName} ${invoice.contact.lastName}`}</td>
+                                        <td class="text-center">${invoice.total}</td>
+                                                <td class="text-center">{invoice.dueDate}</td>
+                                                <td class="text-center">
+                                                    <span class={this.paymentStatusCss(invoice.status)}>{invoice.status}
+                                                    </span></td>
+                                                <td width="130" class="middle">
+                                                    <div>
+                                                        <a href="update-invoice" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Edit">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>   
+                                        )}) : (<tr></tr>)
+                                        }
                                     <tr>
                                     </tr>
                                 </tbody>
