@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listContacts } from '../graphql/queries';
+import { deleteContact }from '../graphql/mutations';
 
 class Contacts extends Component {
     constructor(props){
@@ -8,11 +9,16 @@ class Contacts extends Component {
         this.state = { contacts: null }
         this.fetchContacts = this.fetchContacts.bind(this);
         this.viewNewContactForm = this.viewNewContactForm.bind(this);
+        this.deleteContactForm = this.deleteContactForm.bind(this);
         this.viewUpdateContactForm = this.viewUpdateContactForm.bind(this);
     }
 
     componentDidMount() {
         this.fetchContacts();
+    }
+
+    componentDidUpdate() {
+        console.log('change occurred in the DOM')
     }
 
     async fetchContacts () {
@@ -29,6 +35,18 @@ class Contacts extends Component {
     viewNewContactForm () {
         console.log("viewNewContactForm button clicked");
         this.props.history.push('/new-contact');
+    }
+
+    async deleteContactForm (id) {
+        console.log(id)
+        try {
+            await API.graphql(graphqlOperation(deleteContact, { input: {id}} ))
+        }
+        catch (err) {
+            console.log('error deleting contact', err);
+        }
+
+        this.props.history.push('/contacts');
     }
 
     viewUpdateContactForm (id) {
@@ -81,9 +99,9 @@ class Contacts extends Component {
                               <button class="btn btn-outline-primary btn-circle" onClick={() => this.viewUpdateContactForm(contact.id)}>
                                 <i class="fa fa-edit"></i>
                               </button>
-                              <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Delete">
+                              <button class="btn btn-outline-danger btn-circle btn-xs" title="Delete" onClick={() => this.deleteContactForm(contact.id)}>
                                   <i class="fa fa-times"></i>
-                              </a>
+                              </button>
                               </div>
                           </td>
                       </tr>  

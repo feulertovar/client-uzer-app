@@ -22,7 +22,7 @@ class UpdateContact extends Component {
             phoneNumber: undefined 
         }
 
-        this.updateContact = this.updateContact.bind(this);
+        this.updateContactForm = this.updateContactForm.bind(this);
         this.cancelContactForm = this.cancelContactForm.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.fetchContact = this.fetchContact.bind(this);
@@ -44,7 +44,7 @@ class UpdateContact extends Component {
         }
     }
 
-    async updateContact(e) {
+    async updateContactForm(e) {
         const { id, userID, firstName, lastName, email, company, note, phoneNumber } = this.state;
         if (e.currentTarget.checkValidity() === false) {
             e.preventDefault();
@@ -81,7 +81,7 @@ class UpdateContact extends Component {
                 <Card.Header>New Contact</Card.Header>
                 <Form
                     style={{paddingTop: '3.25rem'}}
-                    onSubmit={(e) => this.updateContact(e)}
+                    onSubmit={(e) => this.updateContactForm(e)}
                     validated={this.state.validated}
                 >
                 <Card.Body>
