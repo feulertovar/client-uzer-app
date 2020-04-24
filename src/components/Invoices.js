@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listInvoices } from '../graphql/queries';
+import { deleteInvoice } from '../graphql/mutations';
 
 class Invoices extends Component {
     constructor(props) {
         super(props);
-        this.state = { invoices: null};
+        this.state = { invoices: null };
         this.viewInvoiceForm = this.viewInvoiceForm.bind(this);
         this.fetchInvoices = this.fetchInvoices.bind(this);
+        this.viewUpdateInvoiceForm = this.viewUpdateInvoiceForm.bind(this);
+        this.deleteInvoiceForm = this.deleteInvoiceForm.bind(this);
     }
 
     componentDidMount() {
@@ -18,6 +21,10 @@ class Invoices extends Component {
         this.props.history.push('/new-invoice')
     }
 
+    viewUpdateInvoiceForm(id) {
+        this.props.history.push(`/update-invoice/${id}`);
+    }
+
     async fetchInvoices() {
         try {
             const invoicesData = await API.graphql(graphqlOperation(listInvoices));
@@ -26,6 +33,18 @@ class Invoices extends Component {
         } catch (err) {
             console.log('error fetching invoices', err)
         }
+    }
+
+    async deleteInvoiceForm (id) {
+        console.log(id)
+        try {
+            await API.graphql(graphqlOperation(deleteInvoice, { input: {id}} ))
+        }
+        catch (err) {
+            console.log('error deleting contact', err);
+        }
+        this.fetchInvoices();
+        this.props.history.push('/invoices');
     }
 
     paymentStatusCss = (status) => {
@@ -78,12 +97,12 @@ class Invoices extends Component {
                                     </span></td>
                                 <td width="130" class="middle">
                                 <div>
-                                <a href="update-invoice" class="btn btn-outline-primary btn-circle btn-xs" title="Edit">
+                                <button class="btn btn-outline-primary btn-circle btn-xs" title="Edit" onClick={() => this.viewUpdateInvoiceForm(invoice.id)}>
                                     <i class="fa fa-edit"></i>
-                                </a>
-                                <a href="#" class="btn btn-outline-danger btn-circle btn-xs" title="Edit">
+                                    </button>
+                                <button class="btn btn-outline-danger btn-circle btn-xs" title="Delete" onClick={() => this.deleteInvoiceForm(invoice.id)}>
                                     <i class="fa fa-times"></i>
-                                </a>
+                                </button>
                                 </div>
                                     </td>
                                 </tr>   

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { createInvoice } from '../graphql/mutations';
-import { listInvoices } from '../graphql/queries';
 import { listContacts } from '../graphql/queries';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
