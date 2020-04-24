@@ -20,9 +20,6 @@ import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (
@@ -51,7 +48,7 @@ class App extends Component {
               <Route path="/invoices" component={Invoices} />
               <Route path="/new-invoice" component={NewInvoice} />
               <Route path="/update-contact/:id" component={UpdateContact} />
-              <Route path="/update-invoice" component={UpdateInvoice} />
+              <Route path="/update-invoice/:id" component={UpdateInvoice} />
             </Switch>
       </div>
       </Router>

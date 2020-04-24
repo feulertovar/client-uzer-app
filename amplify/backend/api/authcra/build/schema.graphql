@@ -48,7 +48,7 @@ type Invoice {
   user: User
   contact: Contact
   total: Float!
-  dueDate: Int!
+  dueDate: String!
   status: String!
 }
 
@@ -420,7 +420,7 @@ input ModelInvoiceFilterInput {
   contactID: ModelIDInput
   userID: ModelIDInput
   total: ModelFloatInput
-  dueDate: ModelIntInput
+  dueDate: ModelStringInput
   status: ModelStringInput
   and: [ModelInvoiceFilterInput]
   or: [ModelInvoiceFilterInput]
@@ -432,7 +432,7 @@ input CreateInvoiceInput {
   contactID: ID!
   userID: ID!
   total: Float!
-  dueDate: Int!
+  dueDate: String!
   status: String!
 }
 
@@ -441,7 +441,7 @@ input UpdateInvoiceInput {
   contactID: ID
   userID: ID
   total: Float
-  dueDate: Int
+  dueDate: String
   status: String
 }
 
@@ -453,7 +453,7 @@ input ModelInvoiceConditionInput {
   contactID: ModelIDInput
   userID: ModelIDInput
   total: ModelFloatInput
-  dueDate: ModelIntInput
+  dueDate: ModelStringInput
   status: ModelStringInput
   and: [ModelInvoiceConditionInput]
   or: [ModelInvoiceConditionInput]

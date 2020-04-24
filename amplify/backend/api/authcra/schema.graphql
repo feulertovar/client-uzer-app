@@ -51,6 +51,6 @@ type Invoice @model
   user: User @connection(fields: ["userID"])
   contact: Contact @connection(fields: ["contactID"])
   total: Float!
-  dueDate: Int!
+  dueDate: String!
   status: String!
 }

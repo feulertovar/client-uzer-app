@@ -85,88 +85,88 @@ class UpdateContact extends Component {
                     validated={this.state.validated}
                 >
                 <Card.Body>
-                        <Form.Group as={Row} controlId="contactForm.firstName">
-                            <Form.Label column sm={3}>First Name</Form.Label>
-                            <Col sm={7}>
-                                <Form.Control required
-                                    onChange={this.handleChange}
-                                    value={this.state.firstName}
-                                    name="firstName"
-                                />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} controlId="contactForm.lastName">
-                            <Form.Label column sm={3}>Last Name</Form.Label>
-                            <Col sm={7}>
-                                <Form.Control placeholder={"Last Name"}
-                                    onChange={this.handleChange} 
-                                    value={this.state.lastName}
-                                    name="lastName"
-                                />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} controlId="contactForm.company">
-                            <Form.Label column sm={3}>Company</Form.Label>
-                            <Col sm={7}>
-                                <Form.Control placeholder="Company"
-                                    onChange={this.handleChange}
-                                    value={this.state.company}
-                                    name="company"
-                                />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} controlId="contactForm.email">
-                            <Form.Label column sm={3}>Email</Form.Label>
-                            <Col sm={7}>
-                                <Form.Control
-                                    required type="email"
-                                    placeholder="example@example.com"
-                                    onChange={this.handleChange}
-                                    value={this.state.email}
-                                    name="email"
-                                />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} controlId="contactForm.phoneNumber">
-                            <Form.Label column sm={3}>Phone</Form.Label>
-                            <Col sm={7}>
-                                <Form.Control
-                                    placeholder="999-999-9999"
-                                    onChange={this.handleChange}
-                                    value={this.state.phoneNumber}
-                                    name="phoneNumber"
-                                />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} controlId="contactForm.note">
-                            <Form.Label column sm={3}>Note</Form.Label>
-                            <Col sm={7}>
-                                <Form.Control 
-                                    as="textarea" rows={3} 
-                                    onChange={this.handleChange}
-                                    value={this.state.note}
-                                    name="note"
-                                />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} controlId="contactForm.group">
-                            <Form.Label column sm={3}>Group</Form.Label>
-                            <Col sm={4}>
-                                <Form.Control as="select">
-                                    <option>Select group</option>
-                                    <option>Friends</option>
-                                    <option>Other</option>
-                                </Form.Control>
-                            </Col>
-                            <Col sm={3}>
-                                <Button
-                                    variant="light"
-                                    type="submit"
-                                >
-                                        Add Group
-                                </Button>
-                            </Col>
-                        </Form.Group>
+                    <Form.Group as={Row} controlId="contactForm.firstName">
+                        <Form.Label column sm={3}>First Name</Form.Label>
+                        <Col sm={7}>
+                            <Form.Control required
+                                onChange={this.handleChange}
+                                value={this.state.firstName}
+                                name="firstName"
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="contactForm.lastName">
+                        <Form.Label column sm={3}>Last Name</Form.Label>
+                        <Col sm={7}>
+                            <Form.Control placeholder={"Last Name"}
+                                onChange={this.handleChange} 
+                                value={this.state.lastName}
+                                name="lastName"
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="contactForm.company">
+                        <Form.Label column sm={3}>Company</Form.Label>
+                        <Col sm={7}>
+                            <Form.Control placeholder="Company"
+                                onChange={this.handleChange}
+                                value={this.state.company}
+                                name="company"
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="contactForm.email">
+                        <Form.Label column sm={3}>Email</Form.Label>
+                        <Col sm={7}>
+                            <Form.Control
+                                required type="email"
+                                placeholder="example@example.com"
+                                onChange={this.handleChange}
+                                value={this.state.email}
+                                name="email"
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="contactForm.phoneNumber">
+                        <Form.Label column sm={3}>Phone</Form.Label>
+                        <Col sm={7}>
+                            <Form.Control
+                                placeholder="999-999-9999"
+                                onChange={this.handleChange}
+                                value={this.state.phoneNumber}
+                                name="phoneNumber"
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="contactForm.note">
+                        <Form.Label column sm={3}>Note</Form.Label>
+                        <Col sm={7}>
+                            <Form.Control 
+                                as="textarea" rows={3} 
+                                onChange={this.handleChange}
+                                value={this.state.note}
+                                name="note"
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="contactForm.group">
+                        <Form.Label column sm={3}>Group</Form.Label>
+                        <Col sm={4}>
+                            <Form.Control as="select">
+                                <option>Select group</option>
+                                <option>Friends</option>
+                                <option>Other</option>
+                            </Form.Control>
+                        </Col>
+                        <Col sm={3}>
+                            <Button
+                                variant="light"
+                                type="submit"
+                            >
+                                    Add Group
+                            </Button>
+                        </Col>
+                    </Form.Group>
                 </Card.Body>
                 <Card.Footer>
                     <Row className="justify-content-md-center">

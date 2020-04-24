@@ -1,112 +1,201 @@
 import React, { Component } from 'react';
+import { API, graphqlOperation } from 'aws-amplify';
+import { updateInvoice } from '../graphql/mutations';
+import { getInvoice, listContacts } from '../graphql/queries';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 class UpdateInvoice extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            contacts: [],
+            validated: false,
+            invoice: {
+                contactID: null,
+                dueDate: null,
+                status: null,
+                total: 0,
+            }
+        };
+        this.updateInvoiceForm = this.updateInvoiceForm.bind(this);
+        this.cancelInvoiceForm = this.cancelInvoiceForm.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.fetchInvoice = this.fetchInvoice.bind(this);
+    }
+
+    componentDidMount() {
+        this.fetchInvoice();
+        this.fetchContacts();
+    }
+
+    async fetchInvoice () {
+        const { match: { params: { id } } } = this.props;
+        try {
+            const invoiceData = await API.graphql(graphqlOperation(getInvoice, { id }));
+            const {contactID, dueDate, status, total } = invoiceData.data.getInvoice;
+            this.setState({
+                invoice: {
+                    id,
+                    contactID,
+                    dueDate,
+                    status,
+                    total: Number(total)
+                }
+            });
+        }
+        catch (err) {
+            console.log('error fetching contact', err);
+        }
+    }
+
+    async updateInvoiceForm(e) {
+        const { invoice : { id, contactID, dueDate, status, total }} = this.state;
+        if (e.currentTarget.checkValidity() === false) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        this.setState({validated: true});
+        const invoiceInfo = {
+            id,
+            contactID,
+            dueDate,
+            status,
+            total: Number(total)
+        };
+        try { await API.graphql(graphqlOperation(updateInvoice, { input: invoiceInfo })) }
+        catch (err) { console.log('error updating invoice', err); }
+    }
+
+    async fetchContacts () {
+        try {
+            const contactsData = await API.graphql(graphqlOperation(listContacts))
+            const contacts = contactsData.data.listContacts.items
+            this.setState({contacts});
+        }
+        catch (err) {
+            console.log('error fetching contacts', err);
+        }
+    }
+
+
+    cancelInvoiceForm() {
+        return this.props.history.push('/invoices');
+    }
+
+    handleChange (e) {
+        console.log(e.target.value);
+        this.setState({
+            invoice: {
+                ...this.state.invoice,
+                [e.target.name]: e.target.value,
+            }
+        });
+    }
 
     render() {
+        const { contacts, invoice: { total, dueDate } } = this.state;
+        console.log(this.state.invoice);
         return (
-            <main class="py-5">
-            <div class="container">
-                <div class="row">
-    
-                    <div class="col-md-9">
-                        <div class="card">
-                            <div class="card-header">
-                                <strong>New Contact</strong>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-9">
-                                        <div class="form-group row">
-    
-                                            <label for="name" class="col-md-3 col-form-label">Name</label>
-                                            <div class="col-md-8">
-                                                <input type="text" name="name" id="name" class="form-control" placeholder="Name" />
-    
-                                            </div>
-                                        </div>
-    
-                                        <div class="form-group row">
-                                            <label for="email" class="col-md-3 col-form-label">Email</label>
-                                            <div class="col-md-8">
-                                                <div class="row-fluid">
-                                                    <select class="selectpicker" data-show-subtext="true" data-live-search="true">
-                                                        <option>name@example.com</option>
-                                                        <option>name@example.com</option>
-                                                        <option>name@example.com</option>
-                                                        <option>name@example.com</option>
-                                                        <option>name@example.com</option>
-                                                        <option disabled="disabled">name@example.com</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-    
-                                        <div class="form-group row">
-                                            <label for="amount" class="col-md-3 col-form-label">Amount Due</label>
-                                            <div class="col-md-8">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">$</span>
-                                                    <form method="post" action="#">
-                                                        <input type="text" class="form-control" placeholder="0.00" />
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-    
-                                        <div class="form-group row">
-                                            <label for="name" class="col-md-3 col-form-label">Date due</label>
-                                            <div class="col-md-8">
-                                                <input type="date" id="date_due" name="date_due" />
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="group" class="col-md-3 col-form-label">Status</label>
-                                            <div class="col-md-5">
-                                                <form action="#">
-                                                    <input type="radio" id="paid" name="status" value="paid" />
-                                                    <label for="paid">Paid</label><br />
-                                                    <input type="radio" id="not_paid" name="status" value="not_paid" />
-                                                    <label for="not_paid">Not paid</label><br />
-                                                    <input type="radio" id="overdue" name="status" value="overdue" />
-                                                    <label for="overdue">Overdue</label>
-                                                    <br />
-                                                </form>
-    
-                                            </div>
-                                        </div>
-                                        <div class="form-group row" id="add-new-group">
-                                            <div class="offset-md-3 col-md-8">
-                                                <div class="input-group mb-3">
-                                                    <input type="text" class="form-control" name="group_id" placeholder="Enter group name" aria-label="Enter group name" aria-describedby="button-addon2" />
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-                                                            <i class="fa fa-check"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="row">
-                                            <div class="col-md-offset-3 col-md-6">
-                                                <button type="submit" class="btn btn-primary">Save</button>
-                                                <a href="invoices" class="btn btn-outline-secondary">Cancel</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+            <Container style={{padding: '3.5rem', maxWidth: '800px'}}>
+                <Card className="text-center">
+                <Card.Header>Update Invoice</Card.Header>
+                    <Form 
+                        style={{paddingTop: '3.25rem'}}
+                        onSubmit={(e) => this.updateInvoiceForm(e)}
+                        validated={this.state.validated}
+                    >
+                        <Card.Body>
+                            <Form.Group as={Row}>
+                                <Form.Label column sm={3}>Name of Contact</Form.Label>
+                                <Col sm={4}>
+                                <Form.Control as="select" name="contactID"
+                                    required onChange={this.handleChange}>
+                                    <option disabled>
+                                        Select a contact
+                                    </option>
+                                {contacts.map((contact, index) => (
+                                    <option
+                                    key={index} value={contact.id} name="contactID">
+                                        {contact.firstName} {contact.lastName}
+                                    </option>
+                                ))}
+                                </Form.Control>
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row}>
+                                <Form.Label column sm={3}>Email</Form.Label>
+                                <Col sm={7}>
+                                    <Form.Control type="email"
+                                        placeholder="example@example.com"
+                                        name="email"/>
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row}>
+                                <Form.Label column sm={3}>Amount Due</Form.Label>
+                                <Col sm={7}>
+                                <InputGroup>
+                                    <InputGroup.Prepend>
+                                    <InputGroup.Text>$</InputGroup.Text>
+                                    </InputGroup.Prepend>
+                                    <Form.Control required type="number"
+                                        value={total} name="total" onChange={this.handleChange}
+                                    />
+                                </InputGroup>
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row}>
+                                <Form.Label column sm={3}>Due Date</Form.Label>
+                                <Col sm={5}>
+                                    <Form.Control required onChange={this.handleChange}
+                                    value={dueDate} type="date" name="dueDate"/>
+                                </Col>
+                            </Form.Group>
+                            <fieldset>
+                            <Form.Group as={Row}>
+                                <Form.Label as="legend" column sm={3}>Status</Form.Label>
+                                <Col sm={5}>
+                                    <Form.Check 
+                                        required onChange={this.handleChange}
+                                        inline 
+                                        type="radio" label="not paid" name="status" value="not paid"/>
+                                    <Form.Check required onChange={this.handleChange}
+                                        inline type="radio" label="paid" name="status" value="paid"/>
+                                    <Form.Check required onChange={this.handleChange}
+                                        inline type="radio" label="overdue" name="status" value="overdue"/>
+                                </Col>
+                            </Form.Group>
+                            </fieldset>
+                            <Form.Group as={Row}>
+                                <Form.Label column sm={3}>Group</Form.Label>
+                                <Col sm={7}>
+                                <InputGroup>
+                                    <Form.Control placeholder="Enter group name" />
+                                    <InputGroup.Append>
+                                    <Button variant="outline-secondary">
+                                        <i className="fa fa-check"></i>
+                                    </Button>
+                                    </InputGroup.Append>
+                                </InputGroup>
+                                </Col>
+                            </Form.Group>
+                        </Card.Body>
+                        <Card.Footer>
+                            <Form.Group as={Row} className="justify-content-md-center">
+                                <Col sm={6}><Button type="submit">Save</Button></Col>
+                                <Col sm={4}><Button variant="outline-secondary"
+                                        onClick={this.cancelInvoiceForm}
+                                >Cancel</Button></Col>
+                            </Form.Group>
+                        </Card.Footer>
+                    </Form>
+                </Card>
+            </Container>
         )
     }
 }
