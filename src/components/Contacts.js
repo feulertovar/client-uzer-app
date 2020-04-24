@@ -59,7 +59,7 @@ class Contacts extends Component {
             <div class="container">
             <link href="../App.css" rel="stylesheet" />
                 <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                 <div class="list-group">
         <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active">All Contacts<span class="badge badge-secondary badge-pill">{contacts ? contacts.length : 0}</span></a>
                     <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Friends <span class="badge badge-pill badge-secondary">0</span></a>
@@ -68,28 +68,27 @@ class Contacts extends Component {
                 </div>
                 </div>
 
-                <div class="col-md-7">
+                <div class="col-md-8">
                     <div class="card">
                     <div class="card-header"><strong>All Contacts</strong>
                 </div>
               
-                <table class="table">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                        <td><strong>First Name</strong></td>
+                        <td><strong>Last Name</strong></td>
+                        <td><strong>Email</strong></td>
+                        <td><strong>Phone Number</strong></td>
+                        </tr>
+                    </thead>
                     <tbody>
                         { contacts ? contacts.map((contact, index) => {
                           return (<tr key={index}>
-                          <td class="middle">
-                              <div class="media">
-                              <div class="media-left">
-                                  <div class="media-body">
-                                  <h4 class="media-heading">{contact.firstName}</h4>
-                                  <address>
-                                  {contact.email || `No Email Specified`} <br />
-                                  {contact.phoneNumber || `No phone number`}
-                                  </address>
-                              </div>
-                              </div>
-                              </div>
-                          </td>
+                            <td>{contact.firstName}</td>
+                            <td>{contact.lastName}</td>
+                            <td>{contact.email || `No email specified`}</td>
+                            <td>{contact.phoneNumber || `No phone number`}</td>
                           <td width="130" class="middle">
                               <div>
                               <button class="btn btn-outline-primary btn-circle" onClick={() => this.viewUpdateContactForm(contact.id)}>
