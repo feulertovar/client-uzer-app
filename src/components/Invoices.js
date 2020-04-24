@@ -29,10 +29,13 @@ class Invoices extends Component {
     }
 
     paymentStatusCss = (status) => {
+        let initialCss = "badge badge-secondary";
         if (status.toLowerCase() === 'paid'){
-            return "badge badge-secondary badge-success"
+            return `${initialCss} badge-success`;
+        } else if (status.toLowerCase() === 'not paid') {
+            return `${initialCss} badge-warning`;
         } else {
-            return "badge badge-secondary badge-danger"
+            return `${initialCss} badge-danger`;
         }
     }
 
