@@ -32,11 +32,11 @@ class App extends Component {
           <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
           <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
           <link href="assets/css/style.css" rel="stylesheet" />
-            <Navbar.Brand href="/">UZERS</Navbar.Brand>
+            <Navbar.Brand className="link" exact to="/">UZERS</Navbar.Brand>
               <Nav className="mr-auto">
-                <Nav.Link href="/" to="/">Home</Nav.Link>
-                <Nav.Link href="/contacts" to="/contacts">Contacts</Nav.Link>
-                <Nav.Link href="/invoices" to="/invoices">Invoices</Nav.Link>
+                      <Link to="/">Home &nbsp;</Link>
+                      <Link to="/contacts">Contacts&nbsp;</Link>
+                      <Link exact to="/invoices">Invoices&nbsp;</Link>
               </Nav>
           </Navbar>
 
