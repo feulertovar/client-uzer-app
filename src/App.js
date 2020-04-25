@@ -17,29 +17,35 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { withAuthenticator } from 'aws-amplify-react'
 import Amplify from 'aws-amplify';
 import aws_exports from './aws-exports';
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
 Amplify.configure(aws_exports);
 
 class App extends Component {
+
+  state = {
+    toggle:false
+}
+Toggle = () => {
+    this.setState({toggle:!this.state.toggle})
+}
 
   render() {
     return (
       <Router>
       <div className="App">
-          <nav className="navbar navbar-inverse">
+
+          <Navbar bg="light" variant="light">
           <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
           <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
           <link href="assets/css/style.css" rel="stylesheet" />
-                <div className="container-fluid">
-                    <div className="navbar-header">
-                    <a className="navbar-brand" href="#">UZERS</a>
-                    </div>
-                    <ul className="nav navbar-nav">
-                      <Link to="/">Home</Link>
-                      <Link to="/contacts">Contacts</Link>
-                      <Link to="/invoices">Invoices</Link>
-                    </ul>
-                </div>
-          </nav>
+            <Navbar.Brand href="/">UZERS</Navbar.Brand>
+              <Nav className="mr-auto">
+                <Nav.Link href="/">Home</Nav.Link>
+                <Nav.Link href="/contacts">Contacts</Nav.Link>
+                <Nav.Link href="/invoices">Invoices</Nav.Link>
+              </Nav>
+          </Navbar>
 
             <Switch>
               <Route path="/contacts" component={Contacts} />
