@@ -23,13 +23,6 @@ Amplify.configure(aws_exports);
 
 class App extends Component {
 
-  state = {
-    toggle:false
-}
-Toggle = () => {
-    this.setState({toggle:!this.state.toggle})
-}
-
   render() {
     return (
       <Router>
@@ -41,9 +34,9 @@ Toggle = () => {
           <link href="assets/css/style.css" rel="stylesheet" />
             <Navbar.Brand href="/">UZERS</Navbar.Brand>
               <Nav className="mr-auto">
-                <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="/contacts">Contacts</Nav.Link>
-                <Nav.Link href="/invoices">Invoices</Nav.Link>
+                <Nav.Link href="/" to="/">Home</Nav.Link>
+                <Nav.Link href="contacts" to="/contacts">Contacts</Nav.Link>
+                <Nav.Link href="invoices" to="/invoices">Invoices</Nav.Link>
               </Nav>
           </Navbar>
 
