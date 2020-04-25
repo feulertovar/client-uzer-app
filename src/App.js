@@ -35,8 +35,8 @@ class App extends Component {
             <Navbar.Brand href="/">UZERS</Navbar.Brand>
               <Nav className="mr-auto">
                 <Nav.Link href="/" to="/">Home</Nav.Link>
-                <Nav.Link href="contacts" to="/contacts">Contacts</Nav.Link>
-                <Nav.Link href="invoices" to="/invoices">Invoices</Nav.Link>
+                <Nav.Link href="/contacts" to="/contacts">Contacts</Nav.Link>
+                <Nav.Link href="/invoices" to="/invoices">Invoices</Nav.Link>
               </Nav>
           </Navbar>
 
